@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections;
+using System.Security.Policy;
 
 namespace prakt14_3_4_5
 {
     public partial class Form1 : Form
     {
         Queue<int> queue = new Queue<int>();
-        Queue<string> queue2 = new Queue<string>();
+        Queue<string> people = new Queue<string>();
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +30,7 @@ namespace prakt14_3_4_5
 
         private void button1_Click(object sender, EventArgs e)
         {
+            listBox1.Items.Clear(); 
             queue.Clear();
             int save = (int)numericUpDown1.Value;
             for (int i = 1; i <= save; i++)
@@ -51,29 +54,33 @@ namespace prakt14_3_4_5
                 }
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             StreamReader st = new StreamReader("people.txt");
             string str;
-            while (st.ReadLine() != null)
+            while (!st.EndOfStream)
             {
                 str = st.ReadLine();
                 string[] spl = str.Split(' ');
-                int age =Convert.ToInt32(spl[3]);
+                int age = Convert.ToInt32(spl[3]);
                 if (age < 40)
                 {
                     listBox2.Items.Add(str);
                 }
-                else queue2.Enqueue(str);
+                else people.Enqueue(str);
             }
             st.Close();
-            foreach (string lines in queue2)
+            foreach (string lines in people)
             {
                 listBox2.Items.Add(lines);
             }
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
         }
+    }
     }
 

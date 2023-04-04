@@ -118,6 +118,7 @@ namespace prakt14_3_4_5
             this.button4.TabIndex = 6;
             this.button4.Text = "Вывод информации отсортированную по возрасту";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listBox2
             // 
