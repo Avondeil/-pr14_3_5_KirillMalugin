@@ -17,6 +17,7 @@ namespace prakt14_3_4_5
     {
         Queue<int> queue = new Queue<int>();
         Queue<string> people = new Queue<string>();
+        Queue<string> peoplesortage = new Queue<string>();
         public Form1()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace prakt14_3_4_5
 
         private void button1_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Clear(); 
+            listBox1.Items.Clear();
             queue.Clear();
             int save = (int)numericUpDown1.Value;
             for (int i = 1; i <= save; i++)
@@ -56,7 +57,10 @@ namespace prakt14_3_4_5
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            StreamReader st = new StreamReader("people.txt");
+            
+            listBox2.Items.Clear();
+            people.Clear();
+            StreamReader st = new StreamReader("p.txt");
             string str;
             while (!st.EndOfStream)
             {
@@ -65,9 +69,8 @@ namespace prakt14_3_4_5
                 int age = Convert.ToInt32(spl[3]);
                 if (age < 40)
                 {
-                    listBox2.Items.Add(str);
+                    people.Enqueue(str);
                 }
-                else people.Enqueue(str);
             }
             st.Close();
             foreach (string lines in people)
@@ -76,10 +79,56 @@ namespace prakt14_3_4_5
             }
 
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
+            listBox2.Items.Clear();
+            string[] st = File.ReadAllLines("p.txt");
+            string[] split=new string[st.Length]; string[] split1=new string[st.Length];
+            for (int i = 0; i < st.Length-1; i++)
+            {
+                for (int j = i+1; j < st.Length; j++)
+                {
+                    split = st[i].Split(' ');
+                    split1 = st[j].Split(' ');
+                    if (Convert.ToInt32(split[3]) > Convert.ToInt32(split1[3]))
+                    {
+                        string save = st[i];
+                        st[i] = st[j];
+                        st[j] = save;
+                    }
+                }
+            }
+            for (int i = 0; i < st.Length; i++) 
+            {
+                peoplesortage.Enqueue(st[i]);
+            }
+            foreach (string lines in peoplesortage)
+            {
+                listBox2.Items.Add(lines);
+            }
 
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            panel1.Visible = true;
+            panel2.Visible = false;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            panel2.Visible = true;
+            button3.Visible = true;
+            button4.Visible=false;
+            panel1.Visible = false;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            panel2.Visible = true;
+            button4.Visible = true;
+            button3.Visible = false;
+            panel1.Visible = false;
         }
     }
     }
